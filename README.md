@@ -1,22 +1,13 @@
-<h1 align="center"><strong>Boilerplate for a Basic GraphQL Server w/ TypeScript</strong></h1>
+<h1 align="center"><strong>A boilerplate for a custom user management layer around firebase authentication</strong></h1>
 
 <br />
 
-<div align="center"><img src="https://imgur.com/1MfnLVl.png" /></div>
+## Configuration:
 
-<div align="center"><strong>🚀 Bootstrap your GraphQL server within seconds</strong></div>
-<div align="center">Basic starter kit for a flexible GraphQL server for TypeScript - based on best practices from the GraphQL community.</div>
+If running in production, supply your firebase credentials through the env variables `FIREBASE_CREDS_URL` and `FIREBASE_DATABASE_URL`. 
 
-## Features
+For local development, put your firebase credentials in a file called `firebase-creds.json` at the root level. 
 
-- **Scalable GraphQL server:** The server uses [`graphql-yoga`](https://github.com/prisma/graphql-yoga) which is based on Apollo Server & Express
-- **Static type generation**: TypeScript types for GraphQL queries & mutations are generated in a build step
-- **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on MySQL)
-- **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
-- **Extensible**: Simple and flexible [data model](./database/datamodel.graphql) – easy to adjust and extend
-- **No configuration overhead**: Preconfigured [`graphql-config`](https://github.com/prisma/graphql-config) setup
-
-Read more about the idea behind GraphQL boilerplates [here](https://blog.graph.cool/graphql-boilerplates-graphql-create-how-to-setup-a-graphql-project-6428be2f3a5).
 
 ## Requirements
 
