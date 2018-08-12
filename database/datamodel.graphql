@@ -1,6 +1,10 @@
-type Post {
+type User {
   id: ID! @unique
-  isPublished: Boolean! @default(value: "false")
-  title: String!
-  text: String!
+  uid: String! 
+  name: String!
+  slug: String!
+  preferences: UserPreferences!
+}
+type UserPreferences{
+  subscribeNewsletter: Boolean! @default(value: false)
 }
