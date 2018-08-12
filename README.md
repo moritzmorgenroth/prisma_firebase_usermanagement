@@ -4,9 +4,10 @@
 
 ## Configuration:
 
-If running in production, supply your firebase credentials through the env variables `FIREBASE_CREDS_URL` and `FIREBASE_DATABASE_URL`. 
-
-For local development, put your firebase credentials in a file called `firebase-creds.json` at the root level. 
+* Do make sure to not put your personal `.env` file under version control. Run `git rm -r --cached .` `git add .
+` and commit to make sure it is removed from your repository clone. 
+* Configure the prisma endpoint in your `.env` file to map to your workspace of else have it point to a custom prisma instance. 
+* If running in production, supply your firebase credentials through the env variables `FIREBASE_CREDS_URL` and `FIREBASE_DATABASE_URL`. For local development, put your firebase credentials in a file called `firebase-creds.json` at the root level. 
 
 
 ## Requirements
