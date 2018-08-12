@@ -1,0 +1,12 @@
+dist
+node_modules
+.idea
+.vscode
+*.log
+.env*
+.DS_Store
+
+guestimate-firebase_creds\.json
+
+# docker image artifacs
+*.tar
