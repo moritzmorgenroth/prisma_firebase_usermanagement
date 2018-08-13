@@ -1,8 +1,9 @@
 import { GraphQLServer } from 'graphql-yoga'
 import { importSchema } from 'graphql-import'
 import { Prisma } from './generated/prisma'
-import { Context } from './utils'
+import { Context, getUserId } from './utils'
 import * as admin from 'firebase-admin'
+import { rule, shield, and, or, not } from 'graphql-shield'
 
 
 const resolvers = {
@@ -38,17 +39,19 @@ const resolvers = {
     },
   },
 }
+const prisma = new Prisma({
+  endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
+  secret: process.env.PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
+  debug: false, // log all GraphQL queries & mutations
+})
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
   context: req => ({
     ...req,
-    db: new Prisma({
-      endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service (value is set in .env)
-      secret: process.env.PRISMA_SECRET, // taken from database/prisma.yml (value is set in .env)
-      debug: false, // log all GraphQL queries & mutations
-    }),
+    db: prisma, 
+    user: getUser(req, prisma),
   }),
 })
 

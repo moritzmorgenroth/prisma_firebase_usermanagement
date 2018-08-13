@@ -6,7 +6,9 @@
     "playground": "graphql playground"
   },
   "dependencies": {
+    "firebase-admin": "^6.0.0",
     "graphql-import": "0.6.0",
+    "graphql-shield": "^2.2.6",
     "graphql-yoga": "1.16.0",
     "prisma-binding": "2.1.4"
   },
