@@ -3,8 +3,12 @@ type User {
   uid: String! 
   name: String!
   slug: String!
+  roles: [UserRole!]! 
   preferences: UserPreferences!
 }
 type UserPreferences{
   subscribeNewsletter: Boolean! @default(value: false)
+}
+enum UserRole{
+  USER
 }
