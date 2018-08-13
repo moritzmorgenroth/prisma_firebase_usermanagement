@@ -27,7 +27,7 @@ export async function getUser(request: any, db){
     if (!user) {
       user = await db.mutation.createUser({
         data: {
-          uid: data.uid
+          uid: data.uid,
           roles: ["USER"]
         }
       });
