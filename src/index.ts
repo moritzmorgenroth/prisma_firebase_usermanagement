@@ -50,15 +50,13 @@ if (!process.env.FIREBASE_CREDS_URL) {
   process.exit(1);
 }
 
-var databaseURL = process.env.FIREBASE_DATABASE_URL;
 var serviceAccount = require(process.env.FIREBASE_CREDS_URL);
 
-console.log(`Firebase: Connecting to ${databaseURL}`);
+console.log(`Firebase: Connecting...`);
 
 // Initialize the app with a service account, granting admin privileges
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: databaseURL
 });
 
 server.start(() => console.log("Server is running on http://localhost:4000"));

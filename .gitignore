@@ -6,7 +6,7 @@ node_modules
 .env*
 .DS_Store
 
-guestimate-firebase_creds\.json
+firebase_creds.json
 
 # docker image artifacs
 *.tar
