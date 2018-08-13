@@ -37,10 +37,10 @@ const prisma = new Prisma({
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
-  context: req => ({
+  context: async req => ({
     ...req,
     db: prisma,
-    user: getUser(req, prisma)
+    user: await getUser(req, prisma)
   })
 });
 
