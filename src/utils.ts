@@ -13,6 +13,7 @@ export class AuthError extends Error {
 }
 // TODO implement session tokens
 export async function getUser(request: any, db){
+  // TODO ugly nested request. Refactor?
   const auth = request.request.get('Authorization');
   if (auth) {
     const token = auth.replace("Bearer ", "");
@@ -25,9 +26,9 @@ export async function getUser(request: any, db){
       }
     }, `{ id }`);
     if (!user) {
-      user = await ctx.db.mutation.createUser({
+      user = await db.mutation.createUser({
         data: {
-          uid: data.uid
+          uid: data.uid,
           roles: ["USER"]
         }
       });

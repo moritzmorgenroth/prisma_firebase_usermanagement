@@ -1,7 +1,7 @@
 import { GraphQLServer } from "graphql-yoga";
 import { importSchema } from "graphql-import";
 import { Prisma } from "./generated/prisma";
-import { Context, getUserId } from "./utils";
+import { Context, getUser } from "./utils";
 import * as admin from "firebase-admin";
 import { rule, shield, and, or, not } from "graphql-shield";
 
@@ -12,9 +12,16 @@ const resolvers = {
     }
   },
   Mutation: {
-    updatePreferences(parent, { subscibeNewsletter }, context: Context, info) {
-      return context.db.mutation.updatePreferences(
-        { data: { subscibeNewsletter } },
+    updatePreferences(parent, { subscribeNewsletter }, context: Context, info) {
+      return context.db.mutation.updateUser(
+        {
+          data: {
+            preferences: {
+              update: { subscribeNewsletter }
+            }
+          },
+          where: {id: context.user}
+        },
         info
       );
     }
