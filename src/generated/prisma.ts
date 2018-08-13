@@ -4,27 +4,34 @@ import { Options } from 'graphql-binding'
 import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
-    posts: <T = Post[]>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    post: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    postsConnection: <T = PostConnection>(args: { where?: PostWhereInput, orderBy?: PostOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    users: <T = User[]>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    userPreferenceses: <T = UserPreferences[]>(args: { where?: UserPreferencesWhereInput, orderBy?: UserPreferencesOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    usersConnection: <T = UserConnection>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    userPreferencesesConnection: <T = UserPreferencesConnection>(args: { where?: UserPreferencesWhereInput, orderBy?: UserPreferencesOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     node: <T = Node | null>(args: { id: ID_Output }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Mutation {
-    createPost: <T = Post>(args: { data: PostCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updatePost: <T = Post | null>(args: { data: PostUpdateInput, where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    deletePost: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    upsertPost: <T = Post>(args: { where: PostWhereUniqueInput, create: PostCreateInput, update: PostUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updateManyPosts: <T = BatchPayload>(args: { data: PostUpdateInput, where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    deleteManyPosts: <T = BatchPayload>(args: { where?: PostWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+    createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createUserPreferences: <T = UserPreferences>(args: { data: UserPreferencesCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyUserPreferenceses: <T = BatchPayload>(args: { data: UserPreferencesUpdateInput, where?: UserPreferencesWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyUserPreferenceses: <T = BatchPayload>(args: { where?: UserPreferencesWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Subscription {
-    post: <T = PostSubscriptionPayload | null>(args: { where?: PostSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> 
+    user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    userPreferences: <T = UserPreferencesSubscriptionPayload | null>(args: { where?: UserPreferencesSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> 
   }
 
 export interface Exists {
-  Post: (where?: PostWhereInput) => Promise<boolean>
+  User: (where?: UserWhereInput) => Promise<boolean>
+  UserPreferences: (where?: UserPreferencesWhereInput) => Promise<boolean>
 }
 
 export interface Prisma {
@@ -49,7 +56,11 @@ export interface BindingConstructor<T> {
  * Type Defs
 */
 
-const typeDefs = `type AggregatePost {
+const typeDefs = `type AggregateUser {
+  count: Int!
+}
+
+type AggregateUserPreferences {
   count: Int!
 }
 
@@ -65,12 +76,15 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createPost(data: PostCreateInput!): Post!
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  deletePost(where: PostWhereUniqueInput!): Post
-  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
-  updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
-  deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createUser(data: UserCreateInput!): User!
+  createUserPreferences(data: UserPreferencesCreateInput!): UserPreferences!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteUser(where: UserWhereUniqueInput!): User
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyUserPreferenceses(data: UserPreferencesUpdateInput!, where: UserPreferencesWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyUserPreferenceses(where: UserPreferencesWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -100,73 +114,136 @@ type PageInfo {
   endCursor: String
 }
 
-type Post implements Node {
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  userPreferenceses(where: UserPreferencesWhereInput, orderBy: UserPreferencesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserPreferences]!
+  user(where: UserWhereUniqueInput!): User
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  userPreferencesesConnection(where: UserPreferencesWhereInput, orderBy: UserPreferencesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserPreferencesConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  userPreferences(where: UserPreferencesSubscriptionWhereInput): UserPreferencesSubscriptionPayload
+}
+
+type User implements Node {
   id: ID!
-  isPublished: Boolean!
-  title: String!
-  text: String!
+  uid: String!
+  name: String!
+  slug: String!
+  preferences(where: UserPreferencesWhereInput): UserPreferences!
 }
 
 """A connection to a list of items."""
-type PostConnection {
+type UserConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [PostEdge]!
-  aggregate: AggregatePost!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
 }
 
-input PostCreateInput {
-  isPublished: Boolean
-  title: String!
-  text: String!
+input UserCreateInput {
+  uid: String!
+  name: String!
+  slug: String!
+  preferences: UserPreferencesCreateOneInput!
 }
 
 """An edge in a connection."""
-type PostEdge {
+type UserEdge {
   """The item at the end of the edge."""
-  node: Post!
+  node: User!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum PostOrderByInput {
+enum UserOrderByInput {
   id_ASC
   id_DESC
-  isPublished_ASC
-  isPublished_DESC
-  title_ASC
-  title_DESC
-  text_ASC
-  text_DESC
+  uid_ASC
+  uid_DESC
+  name_ASC
+  name_DESC
+  slug_ASC
+  slug_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
 }
 
-type PostPreviousValues {
-  id: ID!
-  isPublished: Boolean!
-  title: String!
-  text: String!
+type UserPreferences {
+  subscribeNewsletter: Boolean!
 }
 
-type PostSubscriptionPayload {
+"""A connection to a list of items."""
+type UserPreferencesConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserPreferencesEdge]!
+  aggregate: AggregateUserPreferences!
+}
+
+input UserPreferencesCreateInput {
+  subscribeNewsletter: Boolean
+}
+
+input UserPreferencesCreateOneInput {
+  create: UserPreferencesCreateInput
+}
+
+"""An edge in a connection."""
+type UserPreferencesEdge {
+  """The item at the end of the edge."""
+  node: UserPreferences!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserPreferencesOrderByInput {
+  subscribeNewsletter_ASC
+  subscribeNewsletter_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreferencesPreviousValues {
+  subscribeNewsletter: Boolean!
+}
+
+type UserPreferencesSubscriptionPayload {
   mutation: MutationType!
-  node: Post
+  node: UserPreferences
   updatedFields: [String!]
-  previousValues: PostPreviousValues
+  previousValues: UserPreferencesPreviousValues
 }
 
-input PostSubscriptionWhereInput {
+input UserPreferencesSubscriptionWhereInput {
   """Logical AND on all given filters."""
-  AND: [PostSubscriptionWhereInput!]
+  AND: [UserPreferencesSubscriptionWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [PostSubscriptionWhereInput!]
+  OR: [UserPreferencesSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserPreferencesSubscriptionWhereInput!]
 
   """
   The subscription event gets dispatched when it's listed in mutation_in
@@ -187,21 +264,106 @@ input PostSubscriptionWhereInput {
   The subscription event gets only dispatched when some of the field names included in this list have been updated
   """
   updatedFields_contains_some: [String!]
-  node: PostWhereInput
+  node: UserPreferencesWhereInput
 }
 
-input PostUpdateInput {
-  isPublished: Boolean
-  title: String
-  text: String
+input UserPreferencesUpdateDataInput {
+  subscribeNewsletter: Boolean
 }
 
-input PostWhereInput {
+input UserPreferencesUpdateInput {
+  subscribeNewsletter: Boolean
+}
+
+input UserPreferencesUpdateOneInput {
+  create: UserPreferencesCreateInput
+  delete: Boolean
+  update: UserPreferencesUpdateDataInput
+  upsert: UserPreferencesUpsertNestedInput
+}
+
+input UserPreferencesUpsertNestedInput {
+  update: UserPreferencesUpdateDataInput!
+  create: UserPreferencesCreateInput!
+}
+
+input UserPreferencesWhereInput {
   """Logical AND on all given filters."""
-  AND: [PostWhereInput!]
+  AND: [UserPreferencesWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [PostWhereInput!]
+  OR: [UserPreferencesWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserPreferencesWhereInput!]
+  subscribeNewsletter: Boolean
+
+  """All values that are not equal to given value."""
+  subscribeNewsletter_not: Boolean
+}
+
+type UserPreviousValues {
+  id: ID!
+  uid: String!
+  name: String!
+  slug: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  uid: String
+  name: String
+  slug: String
+  preferences: UserPreferencesUpdateOneInput
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -242,110 +404,131 @@ input PostWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  isPublished: Boolean
+  uid: String
 
   """All values that are not equal to given value."""
-  isPublished_not: Boolean
-  title: String
-
-  """All values that are not equal to given value."""
-  title_not: String
+  uid_not: String
 
   """All values that are contained in given list."""
-  title_in: [String!]
+  uid_in: [String!]
 
   """All values that are not contained in given list."""
-  title_not_in: [String!]
+  uid_not_in: [String!]
 
   """All values less than the given value."""
-  title_lt: String
+  uid_lt: String
 
   """All values less than or equal the given value."""
-  title_lte: String
+  uid_lte: String
 
   """All values greater than the given value."""
-  title_gt: String
+  uid_gt: String
 
   """All values greater than or equal the given value."""
-  title_gte: String
+  uid_gte: String
 
   """All values containing the given string."""
-  title_contains: String
+  uid_contains: String
 
   """All values not containing the given string."""
-  title_not_contains: String
+  uid_not_contains: String
 
   """All values starting with the given string."""
-  title_starts_with: String
+  uid_starts_with: String
 
   """All values not starting with the given string."""
-  title_not_starts_with: String
+  uid_not_starts_with: String
 
   """All values ending with the given string."""
-  title_ends_with: String
+  uid_ends_with: String
 
   """All values not ending with the given string."""
-  title_not_ends_with: String
-  text: String
+  uid_not_ends_with: String
+  name: String
 
   """All values that are not equal to given value."""
-  text_not: String
+  name_not: String
 
   """All values that are contained in given list."""
-  text_in: [String!]
+  name_in: [String!]
 
   """All values that are not contained in given list."""
-  text_not_in: [String!]
+  name_not_in: [String!]
 
   """All values less than the given value."""
-  text_lt: String
+  name_lt: String
 
   """All values less than or equal the given value."""
-  text_lte: String
+  name_lte: String
 
   """All values greater than the given value."""
-  text_gt: String
+  name_gt: String
 
   """All values greater than or equal the given value."""
-  text_gte: String
+  name_gte: String
 
   """All values containing the given string."""
-  text_contains: String
+  name_contains: String
 
   """All values not containing the given string."""
-  text_not_contains: String
+  name_not_contains: String
 
   """All values starting with the given string."""
-  text_starts_with: String
+  name_starts_with: String
 
   """All values not starting with the given string."""
-  text_not_starts_with: String
+  name_not_starts_with: String
 
   """All values ending with the given string."""
-  text_ends_with: String
+  name_ends_with: String
 
   """All values not ending with the given string."""
-  text_not_ends_with: String
+  name_not_ends_with: String
+  slug: String
+
+  """All values that are not equal to given value."""
+  slug_not: String
+
+  """All values that are contained in given list."""
+  slug_in: [String!]
+
+  """All values that are not contained in given list."""
+  slug_not_in: [String!]
+
+  """All values less than the given value."""
+  slug_lt: String
+
+  """All values less than or equal the given value."""
+  slug_lte: String
+
+  """All values greater than the given value."""
+  slug_gt: String
+
+  """All values greater than or equal the given value."""
+  slug_gte: String
+
+  """All values containing the given string."""
+  slug_contains: String
+
+  """All values not containing the given string."""
+  slug_not_contains: String
+
+  """All values starting with the given string."""
+  slug_starts_with: String
+
+  """All values not starting with the given string."""
+  slug_not_starts_with: String
+
+  """All values ending with the given string."""
+  slug_ends_with: String
+
+  """All values not ending with the given string."""
+  slug_not_ends_with: String
+  preferences: UserPreferencesWhereInput
 }
 
-input PostWhereUniqueInput {
+input UserWhereUniqueInput {
   id: ID
-}
-
-type Query {
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
-  post(where: PostWhereUniqueInput!): Post
-  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-type Subscription {
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 `
 
@@ -355,14 +538,14 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
-export type PostOrderByInput =   'id_ASC' |
+export type UserOrderByInput =   'id_ASC' |
   'id_DESC' |
-  'isPublished_ASC' |
-  'isPublished_DESC' |
-  'title_ASC' |
-  'title_DESC' |
-  'text_ASC' |
-  'text_DESC' |
+  'uid_ASC' |
+  'uid_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'slug_ASC' |
+  'slug_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
@@ -372,35 +555,35 @@ export type MutationType =   'CREATED' |
   'UPDATED' |
   'DELETED'
 
-export interface PostWhereUniqueInput {
-  id?: ID_Input
+export type UserPreferencesOrderByInput =   'subscribeNewsletter_ASC' |
+  'subscribeNewsletter_DESC' |
+  'id_ASC' |
+  'id_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export interface UserPreferencesUpsertNestedInput {
+  update: UserPreferencesUpdateDataInput
+  create: UserPreferencesCreateInput
 }
 
-export interface PostCreateInput {
-  isPublished?: Boolean
-  title: String
-  text: String
+export interface UserCreateInput {
+  uid: String
+  name: String
+  slug: String
+  preferences: UserPreferencesCreateOneInput
 }
 
-export interface PostUpdateInput {
-  isPublished?: Boolean
-  title?: String
-  text?: String
+export interface UserPreferencesUpdateDataInput {
+  subscribeNewsletter?: Boolean
 }
 
-export interface PostSubscriptionWhereInput {
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: PostWhereInput
-}
-
-export interface PostWhereInput {
-  AND?: PostWhereInput[] | PostWhereInput
-  OR?: PostWhereInput[] | PostWhereInput
+export interface UserWhereInput {
+  AND?: UserWhereInput[] | UserWhereInput
+  OR?: UserWhereInput[] | UserWhereInput
+  NOT?: UserWhereInput[] | UserWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -415,36 +598,109 @@ export interface PostWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  isPublished?: Boolean
-  isPublished_not?: Boolean
-  title?: String
-  title_not?: String
-  title_in?: String[] | String
-  title_not_in?: String[] | String
-  title_lt?: String
-  title_lte?: String
-  title_gt?: String
-  title_gte?: String
-  title_contains?: String
-  title_not_contains?: String
-  title_starts_with?: String
-  title_not_starts_with?: String
-  title_ends_with?: String
-  title_not_ends_with?: String
-  text?: String
-  text_not?: String
-  text_in?: String[] | String
-  text_not_in?: String[] | String
-  text_lt?: String
-  text_lte?: String
-  text_gt?: String
-  text_gte?: String
-  text_contains?: String
-  text_not_contains?: String
-  text_starts_with?: String
-  text_not_starts_with?: String
-  text_ends_with?: String
-  text_not_ends_with?: String
+  uid?: String
+  uid_not?: String
+  uid_in?: String[] | String
+  uid_not_in?: String[] | String
+  uid_lt?: String
+  uid_lte?: String
+  uid_gt?: String
+  uid_gte?: String
+  uid_contains?: String
+  uid_not_contains?: String
+  uid_starts_with?: String
+  uid_not_starts_with?: String
+  uid_ends_with?: String
+  uid_not_ends_with?: String
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
+  slug?: String
+  slug_not?: String
+  slug_in?: String[] | String
+  slug_not_in?: String[] | String
+  slug_lt?: String
+  slug_lte?: String
+  slug_gt?: String
+  slug_gte?: String
+  slug_contains?: String
+  slug_not_contains?: String
+  slug_starts_with?: String
+  slug_not_starts_with?: String
+  slug_ends_with?: String
+  slug_not_ends_with?: String
+  preferences?: UserPreferencesWhereInput
+}
+
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
+}
+
+export interface UserPreferencesCreateOneInput {
+  create?: UserPreferencesCreateInput
+}
+
+export interface UserPreferencesCreateInput {
+  subscribeNewsletter?: Boolean
+}
+
+export interface UserUpdateInput {
+  uid?: String
+  name?: String
+  slug?: String
+  preferences?: UserPreferencesUpdateOneInput
+}
+
+export interface UserPreferencesUpdateOneInput {
+  create?: UserPreferencesCreateInput
+  delete?: Boolean
+  update?: UserPreferencesUpdateDataInput
+  upsert?: UserPreferencesUpsertNestedInput
+}
+
+export interface UserPreferencesUpdateInput {
+  subscribeNewsletter?: Boolean
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserPreferencesWhereInput {
+  AND?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  OR?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  NOT?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  subscribeNewsletter?: Boolean
+  subscribeNewsletter_not?: Boolean
+}
+
+export interface UserPreferencesSubscriptionWhereInput {
+  AND?: UserPreferencesSubscriptionWhereInput[] | UserPreferencesSubscriptionWhereInput
+  OR?: UserPreferencesSubscriptionWhereInput[] | UserPreferencesSubscriptionWhereInput
+  NOT?: UserPreferencesSubscriptionWhereInput[] | UserPreferencesSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserPreferencesWhereInput
 }
 
 /*
@@ -453,6 +709,93 @@ export interface PostWhereInput {
  */
 export interface Node {
   id: ID_Output
+}
+
+export interface AggregateUserPreferences {
+  count: Int
+}
+
+export interface UserPreferences {
+  subscribeNewsletter: Boolean
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType
+  node?: User
+  updatedFields?: String[]
+  previousValues?: UserPreviousValues
+}
+
+export interface BatchPayload {
+  count: Long
+}
+
+export interface UserPreferencesPreviousValues {
+  subscribeNewsletter: Boolean
+}
+
+export interface AggregateUser {
+  count: Int
+}
+
+export interface UserPreviousValues {
+  id: ID_Output
+  uid: String
+  name: String
+  slug: String
+}
+
+export interface UserPreferencesSubscriptionPayload {
+  mutation: MutationType
+  node?: UserPreferences
+  updatedFields?: String[]
+  previousValues?: UserPreferencesPreviousValues
+}
+
+export interface User extends Node {
+  id: ID_Output
+  uid: String
+  name: String
+  slug: String
+  preferences: UserPreferences
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface UserPreferencesEdge {
+  node: UserPreferences
+  cursor: String
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface UserEdge {
+  node: User
+  cursor: String
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface UserPreferencesConnection {
+  pageInfo: PageInfo
+  edges: UserPreferencesEdge[]
+  aggregate: AggregateUserPreferences
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface UserConnection {
+  pageInfo: PageInfo
+  edges: UserEdge[]
+  aggregate: AggregateUser
 }
 
 /*
@@ -465,64 +808,6 @@ export interface PageInfo {
   startCursor?: String
   endCursor?: String
 }
-
-export interface BatchPayload {
-  count: Long
-}
-
-export interface PostPreviousValues {
-  id: ID_Output
-  isPublished: Boolean
-  title: String
-  text: String
-}
-
-/*
- * A connection to a list of items.
-
- */
-export interface PostConnection {
-  pageInfo: PageInfo
-  edges: PostEdge[]
-  aggregate: AggregatePost
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType
-  node?: Post
-  updatedFields?: String[]
-  previousValues?: PostPreviousValues
-}
-
-export interface Post extends Node {
-  id: ID_Output
-  isPublished: Boolean
-  title: String
-  text: String
-}
-
-export interface AggregatePost {
-  count: Int
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface PostEdge {
-  node: Post
-  cursor: String
-}
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string
 
 /*
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -540,3 +825,13 @@ export type ID_Output = string
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean
