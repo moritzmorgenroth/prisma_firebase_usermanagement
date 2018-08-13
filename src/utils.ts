@@ -11,25 +11,29 @@ export class AuthError extends Error {
     super('Not authorized');
   }
 }
-export async function getUserId(ctx: Context) {
-  const Authorization = ctx.request.get("Authorization");
-  if (Authorization) {
-    const token = Authorization.replace("Bearer ", "");
-    let data = await admin.auth().verifyIdToken(token);
+// TODO implement session tokens
+export async function getUser(request: any, db){
+  const auth = request.request.get('Authorization');
+  if (auth) {
+    const token = auth.replace("Bearer ", "");
+    let data = await admin.auth().verifyIdToken(token).catch(() => {return null});
     if(!data) return null; 
-    let user = await ctx.db.query.user({
+    console.log("I get called");
+    let user = await db.query.user({
       where: {
         uid: data.uid
       }
-    });
+    }, `{ id }`);
     if (!user) {
       user = await ctx.db.mutation.createUser({
         data: {
           uid: data.uid
+          roles: ["USER"]
         }
       });
     }
-    return user.id;
+    return user; 
+  } else {
+    return null
   }
-  throw new AuthError();
 }
