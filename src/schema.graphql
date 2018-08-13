@@ -1,11 +1,11 @@
 # import User from "./generated/prisma.graphql"
+# import UserPreferences from "./generated/prisma.graphql"
+
 
 type Query {
-  authenticateUser(token: String!): User!
+  authenticateUser: User!
 }
 
 type Mutation {
-  createDraft(title: String!, text: String): Post
-  deletePost(id: ID!): Post
-  publish(id: ID!): Post
+  updatePreferences(subscribeNewsletter: Boolean!): UserPreferences!
 }

@@ -4,6 +4,7 @@ import * as admin from "firebase-admin";
 export interface Context {
   db: Prisma
   request: any
+  user: any
 }
 export class AuthError extends Error {
   constructor() {

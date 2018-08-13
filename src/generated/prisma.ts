@@ -168,9 +168,6 @@ input PostSubscriptionWhereInput {
   """Logical OR on all given filters."""
   OR: [PostSubscriptionWhereInput!]
 
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostSubscriptionWhereInput!]
-
   """
   The subscription event gets dispatched when it's listed in mutation_in
   """
@@ -205,9 +202,6 @@ input PostWhereInput {
 
   """Logical OR on all given filters."""
   OR: [PostWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -397,7 +391,6 @@ export interface PostUpdateInput {
 export interface PostSubscriptionWhereInput {
   AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
   OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput
   mutation_in?: MutationType[] | MutationType
   updatedFields_contains?: String
   updatedFields_contains_every?: String[] | String
@@ -408,7 +401,6 @@ export interface PostSubscriptionWhereInput {
 export interface PostWhereInput {
   AND?: PostWhereInput[] | PostWhereInput
   OR?: PostWhereInput[] | PostWhereInput
-  NOT?: PostWhereInput[] | PostWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
