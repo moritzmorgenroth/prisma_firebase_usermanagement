@@ -20,7 +20,7 @@ const resolvers = {
               update: { subscribeNewsletter }
             }
           },
-          where: {id: context.user}
+          where: { id: context.user }
         },
         info
       );
