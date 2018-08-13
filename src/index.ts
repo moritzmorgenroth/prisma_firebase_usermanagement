@@ -55,30 +55,19 @@ const server = new GraphQLServer({
 console.log('Firebase: Start initialization')
 
 if (!process.env.FIREBASE_CREDS_URL) {
-  var serviceAccount = require("../firebase-creds.json"); 
-  if(serviceAccount) {
-    console.log("Initializing from local file")
-    admin.initializeApp({ 
-      credential: admin.credential.cert(serviceAccount), 
-      databaseURL: process.env.FIREBASE_DATABASE_URL
-    }); 
-  }
-  else{
-    console.error('Firebase: Please provide the FIREBASE_CREDS_URL envvar.')
-    process.exit(1)
-  }
+  console.error("Firebase: Please provide the FIREBASE_CREDS_URL envvar.");
+  process.exit(1);
 }
-else{
-  var databaseURL = process.env.FIREBASE_DATABASE_URL
-  var serviceAccount = require(process.env.FIREBASE_CREDS_URL)
 
-  console.log(`Firebase: Connecting to ${databaseURL}`)
+var databaseURL = process.env.FIREBASE_DATABASE_URL;
+var serviceAccount = require(process.env.FIREBASE_CREDS_URL);
 
-  // Initialize the app with a service account, granting admin privileges
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: databaseURL,
-  })
-}
+console.log(`Firebase: Connecting to ${databaseURL}`);
+
+// Initialize the app with a service account, granting admin privileges
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: databaseURL
+});
 
 server.start(() => console.log('Server is running on http://localhost:4000'))

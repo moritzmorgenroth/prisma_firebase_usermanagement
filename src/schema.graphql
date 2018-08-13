@@ -1,9 +1,7 @@
-# import Post from "./generated/prisma.graphql"
+# import User from "./generated/prisma.graphql"
 
 type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
+  authenticateUser(token: String!): User!
 }
 
 type Mutation {
