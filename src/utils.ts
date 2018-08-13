@@ -19,7 +19,6 @@ export async function getUser(request: any, db){
     const token = auth.replace("Bearer ", "");
     let data = await admin.auth().verifyIdToken(token).catch(() => {return null});
     if(!data) return null; 
-    console.log("I get called");
     let user = await db.query.user({
       where: {
         uid: data.uid
@@ -28,7 +27,7 @@ export async function getUser(request: any, db){
     if (!user) {
       user = await db.mutation.createUser({
         data: {
-          uid: data.uid,
+          uid: data.uid
           roles: ["USER"]
         }
       });

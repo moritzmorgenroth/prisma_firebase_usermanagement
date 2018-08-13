@@ -1,13 +1,14 @@
 import { GraphQLServer } from "graphql-yoga";
 import { importSchema } from "graphql-import";
 import { Prisma } from "./generated/prisma";
-import { Context, getUser } from "./utils";
+import { Context, getUser, AuthError } from "./utils";
 import * as admin from "firebase-admin";
 import { rule, shield, and, or, not } from "graphql-shield";
 
 const resolvers = {
   Query: {
     authenticateUser(parent, args, context: Context, info) {
+      if(!context.user) throw new AuthError();
       return context.db.query.user({ where: { id: context.user } }, info);
     }
   },
