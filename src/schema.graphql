@@ -3,9 +3,9 @@
 
 
 type Query {
-  authenticateUser: User!
+  authenticateUser(token: String!): User!
 }
 
 type Mutation {
-  updatePreferences(subscribeNewsletter: Boolean!): UserPreferences!
+  updatePreferences(token: String!, subscribeNewsletter: Boolean!): UserPreferences!
 }
