@@ -1,19 +1,34 @@
 import { GraphQLServer } from "graphql-yoga";
 import { importSchema } from "graphql-import";
 import { Prisma } from "./generated/prisma";
-import { Context, getUser, AuthError } from "./utils";
+import { Context, getUserUid, AuthError } from "./utils";
 import * as admin from "firebase-admin";
 import { rule, shield, and, or, not } from "graphql-shield";
 
 const resolvers = {
   Query: {
-    authenticateUser(parent, args, context: Context, info) {
-      if(!context.user) throw new AuthError();
-      return context.db.query.user({ where: { id: context.user } }, info);
+    async authenticateUser(parent, args, context: Context, info) {
+      const uid = await getUserUid(args.token); 
+      if(!uid) throw new AuthError;
+      const user = await context.db.query.user({ where: { uid } }, info);
+      if(!user) {
+        return context.db.mutation.createUser({ 
+          data: {
+            uid,
+            preferences: {
+              create:{
+
+              }
+            }
+          }
+        }, info);
+      }
+      return user; 
     }
   },
   Mutation: {
-    updatePreferences(parent, { subscribeNewsletter }, context: Context, info) {
+    async updatePreferences(parent, {token, subscribeNewsletter}, context: Context, info) {
+      const uid = await getUserUid(token); 
       return context.db.mutation.updateUser(
         {
           data: {
@@ -21,7 +36,7 @@ const resolvers = {
               update: { subscribeNewsletter }
             }
           },
-          where: { id: context.user }
+          where: { uid }
         },
         info
       );
@@ -37,10 +52,9 @@ const prisma = new Prisma({
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers,
-  context: async req => ({
+  context: req => ({
     ...req,
     db: prisma,
-    user: await getUser(req, prisma)
   })
 });
 

@@ -1,8 +1,8 @@
 type User {
   id: ID! @unique
-  uid: String! 
-  name: String!
-  slug: String!
+  uid: String! @unique
+  name: String
+  slug: String
   roles: [UserRole!]! 
   preferences: UserPreferences!
 }

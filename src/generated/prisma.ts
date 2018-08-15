@@ -136,8 +136,9 @@ type Subscription {
 type User implements Node {
   id: ID!
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: [UserRole!]!
   preferences(where: UserPreferencesWhereInput): UserPreferences!
 }
 
@@ -153,9 +154,14 @@ type UserConnection {
 
 input UserCreateInput {
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: UserCreaterolesInput
   preferences: UserPreferencesCreateOneInput!
+}
+
+input UserCreaterolesInput {
+  set: [UserRole!]
 }
 
 """An edge in a connection."""
@@ -305,8 +311,13 @@ input UserPreferencesWhereInput {
 type UserPreviousValues {
   id: ID!
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: [UserRole!]!
+}
+
+enum UserRole {
+  USER
 }
 
 type UserSubscriptionPayload {
@@ -352,7 +363,12 @@ input UserUpdateInput {
   uid: String
   name: String
   slug: String
+  roles: UserUpdaterolesInput
   preferences: UserPreferencesUpdateOneInput
+}
+
+input UserUpdaterolesInput {
+  set: [UserRole!]
 }
 
 input UserWhereInput {
@@ -529,6 +545,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  uid: String
 }
 `
 
@@ -555,6 +572,8 @@ export type MutationType =   'CREATED' |
   'UPDATED' |
   'DELETED'
 
+export type UserRole =   'USER'
+
 export type UserPreferencesOrderByInput =   'subscribeNewsletter_ASC' |
   'subscribeNewsletter_DESC' |
   'id_ASC' |
@@ -564,15 +583,11 @@ export type UserPreferencesOrderByInput =   'subscribeNewsletter_ASC' |
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export interface UserPreferencesUpsertNestedInput {
-  update: UserPreferencesUpdateDataInput
-  create: UserPreferencesCreateInput
-}
-
 export interface UserCreateInput {
   uid: String
-  name: String
-  slug: String
+  name?: String
+  slug?: String
+  roles?: UserCreaterolesInput
   preferences: UserPreferencesCreateOneInput
 }
 
@@ -643,6 +658,13 @@ export interface UserWhereInput {
   preferences?: UserPreferencesWhereInput
 }
 
+export interface UserPreferencesUpdateOneInput {
+  create?: UserPreferencesCreateInput
+  delete?: Boolean
+  update?: UserPreferencesUpdateDataInput
+  upsert?: UserPreferencesUpsertNestedInput
+}
+
 export interface UserSubscriptionWhereInput {
   AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
   OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
@@ -652,6 +674,19 @@ export interface UserSubscriptionWhereInput {
   updatedFields_contains_every?: String[] | String
   updatedFields_contains_some?: String[] | String
   node?: UserWhereInput
+}
+
+export interface UserUpdaterolesInput {
+  set?: UserRole[] | UserRole
+}
+
+export interface UserPreferencesUpsertNestedInput {
+  update: UserPreferencesUpdateDataInput
+  create: UserPreferencesCreateInput
+}
+
+export interface UserCreaterolesInput {
+  set?: UserRole[] | UserRole
 }
 
 export interface UserPreferencesCreateOneInput {
@@ -666,30 +701,8 @@ export interface UserUpdateInput {
   uid?: String
   name?: String
   slug?: String
+  roles?: UserUpdaterolesInput
   preferences?: UserPreferencesUpdateOneInput
-}
-
-export interface UserPreferencesUpdateOneInput {
-  create?: UserPreferencesCreateInput
-  delete?: Boolean
-  update?: UserPreferencesUpdateDataInput
-  upsert?: UserPreferencesUpsertNestedInput
-}
-
-export interface UserPreferencesUpdateInput {
-  subscribeNewsletter?: Boolean
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface UserPreferencesWhereInput {
-  AND?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
-  OR?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
-  NOT?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
-  subscribeNewsletter?: Boolean
-  subscribeNewsletter_not?: Boolean
 }
 
 export interface UserPreferencesSubscriptionWhereInput {
@@ -701,6 +714,23 @@ export interface UserPreferencesSubscriptionWhereInput {
   updatedFields_contains_every?: String[] | String
   updatedFields_contains_some?: String[] | String
   node?: UserPreferencesWhereInput
+}
+
+export interface UserPreferencesWhereInput {
+  AND?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  OR?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  NOT?: UserPreferencesWhereInput[] | UserPreferencesWhereInput
+  subscribeNewsletter?: Boolean
+  subscribeNewsletter_not?: Boolean
+}
+
+export interface UserPreferencesUpdateInput {
+  subscribeNewsletter?: Boolean
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+  uid?: String
 }
 
 /*
@@ -741,8 +771,9 @@ export interface AggregateUser {
 export interface UserPreviousValues {
   id: ID_Output
   uid: String
-  name: String
-  slug: String
+  name?: String
+  slug?: String
+  roles: UserRole[]
 }
 
 export interface UserPreferencesSubscriptionPayload {
@@ -755,8 +786,9 @@ export interface UserPreferencesSubscriptionPayload {
 export interface User extends Node {
   id: ID_Output
   uid: String
-  name: String
-  slug: String
+  name?: String
+  slug?: String
+  roles: UserRole[]
   preferences: UserPreferences
 }
 

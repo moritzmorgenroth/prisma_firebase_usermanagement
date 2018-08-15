@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/moritzmorgenroth/usermanagement/dev
-# timestamp: Mon Aug 13 2018 13:37:55 GMT+0200 (Central European Summer Time)
+# source: https://eu1.prisma.sh/twigbit/userservice/dev
+# timestamp: Wed Aug 15 2018 13:58:42 GMT+0200 (Central European Summer Time)
 
 type AggregateUser {
   count: Int!
@@ -81,8 +81,9 @@ type Subscription {
 type User implements Node {
   id: ID!
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: [UserRole!]!
   preferences(where: UserPreferencesWhereInput): UserPreferences!
 }
 
@@ -98,9 +99,14 @@ type UserConnection {
 
 input UserCreateInput {
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: UserCreaterolesInput
   preferences: UserPreferencesCreateOneInput!
+}
+
+input UserCreaterolesInput {
+  set: [UserRole!]
 }
 
 """An edge in a connection."""
@@ -250,8 +256,13 @@ input UserPreferencesWhereInput {
 type UserPreviousValues {
   id: ID!
   uid: String!
-  name: String!
-  slug: String!
+  name: String
+  slug: String
+  roles: [UserRole!]!
+}
+
+enum UserRole {
+  USER
 }
 
 type UserSubscriptionPayload {
@@ -297,7 +308,12 @@ input UserUpdateInput {
   uid: String
   name: String
   slug: String
+  roles: UserUpdaterolesInput
   preferences: UserPreferencesUpdateOneInput
+}
+
+input UserUpdaterolesInput {
+  set: [UserRole!]
 }
 
 input UserWhereInput {
@@ -474,4 +490,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  uid: String
 }
